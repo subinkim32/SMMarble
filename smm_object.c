@@ -9,8 +9,6 @@
 #include "smm_object.h"
 #include <string.h>
 
-#define MAX_NODETYPE    7
-#define MAX_NODE        100
 
 /*
 char smm_node_name[MAX_NODE][MAX_CHARNAME];
@@ -30,7 +28,7 @@ static char smmNodeName[SMMNODE_TYPE_MAX][MAX_CHARNAME] = {
     "festival"
 };
 
-#if 0 
+/*
 static char smmFoodName[SMMNODE_TYPE_MAX][MAX_CHARNAME] = {
 	"치킨",
 	"맥주",
@@ -47,11 +45,11 @@ static char smmFoodName[SMMNODE_TYPE_MAX][MAX_CHARNAME] = {
 	"요거트",
 	"비빔밥"	
 };
-#endif
+// already defined in marbleFoodConfig.txt
+*/
 
 
-#if 0
-static char smmGradeName[MAX_GRADE] = {
+static char smmGradeName[MAX_GRADE][3] = {
 	"Ap",
     "A0",
     "Am",
@@ -62,22 +60,11 @@ static char smmGradeName[MAX_GRADE] = {
     "C0",
     "Cm"
 };
-// 구조체? 2차원 배열? 이용해 알파벳 성적과 성적에 맞는 학점 연결
-// 이걸 어디서 출력해야 하는지(after lecture, with adding credit), 이걸 어떻게 랜덤하게 출력해낼 것인지 알아야 함
 
 
-typedef enum smmObjGrade {
-    smmObjGrade_Ap = 0,
-    smmObjGrade_A0,
-    smmObjGrade_Am,
-    smmObjGrade_Bp,
-    smmObjGrade_B0,
-    smmObjGrade_Bm,
-    smmObjGrade_Cp,
-    smmObjGrade_C0,
-    smmObjGrade_Cm
-} smmObjGrade_e;
-#endif
+float smmGradeVaule[MAX_GRADE] = {
+	4.3, 4.0, 3.7, 3.3, 3.0, 2.7, 2.3, 2.0, 1.7 };
+//   A+,  A0,  A-,  B+,  B0,  B-,  C+,  C0,  C-
 
 
 char* smmObj_getTypeName(int type)
@@ -113,11 +100,10 @@ typedef struct smmFestival
 
 
 // 2. 구조체 배열 변수 정의
-//static smmObject_t smm_node[MAX_NODE];, 배열이 아니라 database.c에 linked list로 가지고 있게끔 할 것. 
 //static int smmObj_noNode = 0;
 
 // 3. change related functions
-// 3-1. object generation about board? node? player?
+// 3-1. object generation about player
 void* smmObj_genObject(char* name, smmObjType_e objType, int type, int credit, int energy, smmObjGrade_e grade)
 {
 	smmObject_t* ptr;
@@ -142,28 +128,30 @@ void* smmObj_genObject(char* name, smmObjType_e objType, int type, int credit, i
     #endif
 }
 
-#if 0
 // 3-2. object generation about food
-void smmObj_food(char* name, int charge)
+void* smmObj_genFood(char* name, int energy)
 {
-	strcpy (smm_node[smmObj_noNode].name, name);
-    smm_node[smmObj_noNode].type = type;
-    smm_node[smmObj_noNode].credit = credit;
-    smm_node[smmObj_noNode].energy = energy;
-	
-	//ctrlc + ctrlv part
-	smmObject_t* ptr;
-    ptr = (smmObject_t*)malloc(sizeof(smmObject_t));
+	// memory allocating
+	smmFood_t* foodPtr;
+    foodPtr = (smmFood_t*)malloc(sizeof(smmFood_t));
     
-    strcpy (ptr->name, name);
-    ptr->type = type;
-    ptr->credit = credit;
-    ptr->energy = energy;
-    ptr->grade = grade;
+    strcpy (foodPtr->name, name);
+    foodPtr->energy = energy;
     
-    return ptr;
+    return foodPtr;
 }
-#endif
+
+// 3-3. object generation about festival
+void* smmObj_genFestival(char* card)
+{
+	// memory allocating
+	smmFestCard_t* festivalPtr;
+    festivalPtr = (smmFestCard_t*)malloc(sizeof(smmFestCard_t));
+    
+    strcpy (festivalPtr->card, card);
+    
+    return festivalPtr;
+}
 
 // 3. 관련 함수 변경 
 char* smmObj_getNodeName(void* obj)
@@ -188,6 +176,12 @@ int smmObj_getNodeEnergy(void* obj)
 {
 	smmObject_t* ptr = (smmObject_t*) obj;
 	return ptr->energy;
+}
+
+smmObjGrade_e smmObj_getNodeGrade(void* obj)
+{
+	smmObject_t* ptr = (smmObject_t*) obj;	
+    return ptr->grade;
 }
 
 
@@ -220,10 +214,6 @@ char* smmObj_getNodeName(smmNode_e type)
 {
     return smmNodeName[type];
 }
-
-char* smmObj_getGradeName(smmGrade_e grade)
-{
-    return smmGradeName[grade];
-}
 #endif
+
 

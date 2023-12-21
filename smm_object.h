@@ -18,6 +18,12 @@
 
 #define SMMNODE_TYPE_MAX                7
 
+
+#define MAX_NODETYPE    7
+#define MAX_GRADE       9
+#define MAX_NODE        100
+
+
 /* node type :
     lecture,
     restaurant,
@@ -45,7 +51,8 @@ typedef enum smmObjType
 {
 	smmObjType_board = 0,
 	smmObjType_card,
-	smmObjType_grade
+	smmObjType_grade,
+	smmObjType_food
 } smmObjType_e;
 
 
