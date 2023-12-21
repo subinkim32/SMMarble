@@ -15,7 +15,9 @@
 
 #define GRADUATE_CREDIT             30
 #define MAX_DIE                     6
-#define MAX_PLAYER                  10
+#define MAX_PLAYER                  100
+
+#define EXP_THRESHOLD               5
 
 
 #endif /* smm_common_h */

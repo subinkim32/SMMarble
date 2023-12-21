@@ -9,7 +9,7 @@
 #include "smm_database.h"
 
 #define LIST_END            -1
-#define MAX_LIST            LISTNO_OFFSET_GRADE+MAX_PLAYER
+#define MAX_LIST            LISTNO_OFFSET_GRADE + MAX_PLAYER
 
 //node definition for linked list
 typedef struct node{
@@ -73,7 +73,7 @@ static node_t* smmList(int list_nr, int index)
 
 static int updateIndex(int list_nr)
 {
-    int index=0;
+    int index = 0;
     node_t* ndPtr = list_database[list_nr];
     
     while ( ndPtr != NULL )//travel until it is the end node

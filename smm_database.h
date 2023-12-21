@@ -17,5 +17,6 @@ int smmdb_addTail(int list_nr, void* obj);          //add data to tail
 int smmdb_deleteData(int list_nr, int index);       //delete data
 int smmdb_len(int list_nr);                   //get database length
 void* smmdb_getData(int list_nr, int index);        //get index'th data
+	// It depends on which list of information to define
 
 #endif /* smm_database_h */
