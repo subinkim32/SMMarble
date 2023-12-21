@@ -36,6 +36,7 @@ typedef struct player
 static player_t *cur_player;
 //static player_t cur_player[MAX_PLAYER];
 
+
 #if 0 
 static int player_energy[MAX_PLAYER];
 static int player_position[MAX_PLAYER];
@@ -275,12 +276,25 @@ void actionNode(int player)
             break;
     }
 }
+// 'takeLecture' is used to determine whether player can attend the lecture
+void takeLecture(int player)
+{
+	int i = 0;
+	float averGrade = 0.0;
+	void* boardObj;
+        
+	cur_player[player].accumCredit += smmObj_getNodeCredit(boardObj);
+    cur_player[player].energy -= smmObj_getNodeEnergy(boardObj);
+}
 
 void goForward(int player, int step) //make player go "step" steps on the board (check if player is graduated)
 {
-	void *boardPtr;
+	// submit it in database
+	void* boardPtr;
+
 	boardPtr = smmdb_getData(LISTNO_NODE, cur_player[player].position);
 	cur_player[player].position += step;
+
 	
 	printf("%s go to node %i (name: %s)\n",
 				cur_player[player].name,
